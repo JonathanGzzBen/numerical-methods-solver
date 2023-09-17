@@ -12,36 +12,29 @@ private:
 
 public:
   TableOfValues(std::vector<int> x, std::vector<int> y);
-  auto x() -> std::vector<int> &;
-  auto y() -> std::vector<int> &;
+  auto x() const -> const std::vector<int> &;
+  auto y() const -> const std::vector<int> &;
 };
 
-class NewtonForwardInput {
-  TableOfValues table_of_values_;
-  int x0_; // Desired value
-
-public:
-  NewtonForwardInput(TableOfValues table_of_values, int x0);
-  auto table_of_values() -> TableOfValues &;
-  auto x0() const -> int;
-};
-
-class NewtonForwardOutput {
+class NewtonInterpolationSolution {
 private:
   int h_;
   int x1_;
   std::vector<std::vector<int>> differences_;
 
-public:
-  NewtonForwardOutput(int h, int x1, std::vector<std::vector<int>> differences);
-  auto get_delta_y(int i) const -> int;
   auto s(double x) const -> double;
+
+public:
+  NewtonInterpolationSolution(int h, int x1,
+                              std::vector<std::vector<int>> differences);
+  auto get_delta_y(int i) const -> int;
   auto gx(double x) const -> double;
 };
 
-class NewtonForwardSolver {
+class NewtonInterpolationSolver {
 public:
-  static auto Solve(NewtonForwardInput input) -> NewtonForwardOutput;
+  static auto Solve(const TableOfValues &table_of_values)
+      -> NewtonInterpolationSolution;
 };
 
 } // namespace nms

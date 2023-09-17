@@ -5,11 +5,10 @@
 void newton_solve() {
   std::vector<int> x = {-3, -1, 1, 3};
   std::vector<int> y = {125, 127, 132, 133};
-  int x0 = 0;
   std::cout << "newton solving\n";
-  nms::NewtonForwardInput input({x, y}, x0);
+  const auto table = nms::TableOfValues(x, y);
   try {
-    auto output = nms::NewtonForwardSolver::Solve(input);
+    auto output = nms::NewtonInterpolationSolver::Solve(table);
     std::cout << "g(0) = " << output.gx(0) << "\n";
     std::cout << "g(0) = " << output.gx(0) << "\n";
     std::cout << "g(1) = " << output.gx(1) << "\n";
